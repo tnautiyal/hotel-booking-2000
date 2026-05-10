@@ -14,12 +14,12 @@ services:
     framework: playwright
     testDirectory: tests/hotel-booking-backend
     api:
-      schemaPath: http://localhost:5000/api-docs
+      schemaPath: http://localhost:5001/api-docs
       authType: bearer
       authHeader: Authorization
-      baseUrl: http://localhost:5000
+      baseUrl: http://localhost:5001
     runtimeDetails:
-      serverStartCommand: docker compose up -d backend
+      serverStartCommand: docker compose up -d mongodb backend
       runtime: docker
       dockerNetwork: hotel-booking-2000_default
   - serviceName: hotel-booking-frontend
