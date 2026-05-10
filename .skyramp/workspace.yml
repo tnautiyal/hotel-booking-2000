@@ -14,33 +14,13 @@ services:
     framework: playwright
     testDirectory: tests/hotel-booking-backend
     api:
-      schemaPath: http://localhost:5001/api-docs
+      schemaPath: http://localhost:5001/api-docs/openapi.json
       authType: bearer
       authHeader: Authorization
       baseUrl: http://localhost:5001
     runtimeDetails:
-      serverStartCommand: docker compose up -d mongodb backend
+      serverStartCommand: docker compose up -d --build mongodb backend
       runtime: docker
       dockerNetwork: hotel-booking-2000_default
-  - serviceName: hotel-booking-frontend
-    language: typescript
-    framework: playwright
-    testDirectory: tests/hotel-booking-frontend
-    api:
-      authType: none
-      authHeader: ""
-      baseUrl: http://localhost:5174
-    runtimeDetails:
-      serverStartCommand: npm run dev
-      runtime: local
-  - serviceName: e2e-tests
-    language: typescript
-    framework: playwright
-    testDirectory: e2e-tests/tests
-    api:
-      authType: none
-      authHeader: ""
-      baseUrl: http://localhost:5174
-    runtimeDetails:
-      serverStartCommand: npx playwright test
-      runtime: local
+      healthCheckEndpoint: http://localhost:5001/api/health
+      healthCheckTimeout: 60s

@@ -219,6 +219,12 @@ app.use("/api/bookings", bookingsManagementRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/business-insights", businessInsightsRoutes);
 
+// OpenAPI spec JSON endpoint (for Skyramp and other tools) - MUST be before swagger-ui middleware
+app.get("/api-docs/openapi.json", (req: Request, res: Response) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(specs);
+});
+
 // Swagger API Documentation
 app.use(
   "/api-docs",
