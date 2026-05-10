@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 // Define base URL based on environment
 const getBaseURL = () => {
+  // Docker environment: use container name
   if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL;
   }
@@ -15,8 +16,9 @@ const getBaseURL = () => {
     return "https://hotel-booking-backend.duckdns.org";
   }
 
-  if (window.location.hostname === "localhost") {
-    return "http://localhost:5000";
+  // Local development - backend runs on port 5001
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    return "http://localhost:5001";
   }
 
   // Default to production (VPS backend)

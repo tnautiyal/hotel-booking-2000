@@ -18,6 +18,24 @@ services:
       timeout: 5s
       retries: 5
 
+  frontend:
+    build:
+      context: .
+      dockerfile: hotel-booking-frontend/Dockerfile
+    container_name: hotel-booking-frontend
+    depends_on:
+      - backend
+    environment:
+      VITE_API_BASE_URL: http://backend:5001
+    ports:
+      - "5174:5174"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5174/', (r) => process.exit(r.statusCode >= 200 && r.statusCode < 400 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
+
   backend:
     build:
       context: .
@@ -28,20 +46,20 @@ services:
         condition: service_healthy
     environment:
       NODE_ENV: development
-      PORT: 5000
+      PORT: 5001
       MONGODB_CONNECTION_STRING: mongodb://root:mongodb_password@mongodb:27017/hotel_booking?authSource=admin
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-development-secret-key-change-in-production}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5174}
-      GOOGLE_ID: ${GOOGLE_ID:-}
-      GOOGLE_SECRET: ${GOOGLE_SECRET:-}
-      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
-      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
-      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
-      STRIPE_API_KEY: ${STRIPE_API_KEY:-}
+      GOOGLE_ID: ${GOOGLE_ID:-dummy-google-id}
+      GOOGLE_SECRET: ${GOOGLE_SECRET:-dummy-google-secret}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-dummy-cloudinary}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-dummy-api-key}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-dummy-api-secret}
+      STRIPE_API_KEY: ${STRIPE_API_KEY:-sk_test_dummy_stripe_key}
     ports:
-      - "5000:5000"
+      - "5001:5001"
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
       interval: 30s
       timeout: 3s
       retries: 3
