@@ -1,0 +1,80 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"firstName\": \"TestUser\", \"lastName\": \"Skyramp\", \"email\": \"skyramptest@example.com\", \"password\": \"password123\"}",
+    "ResponseBody": "{\"message\": \"User registered OK\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Authorization": [
+        "Bearer SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/users/register",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 5000,
+    "Timestamp": "2026-05-10T19:28:02.119Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"email\": \"skyramptest@example.com\", \"password\": \"password123\"}",
+    "ResponseBody": "{\"userId\": \"string\", \"message\": \"Login successful\", \"token\": \"string\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Authorization": [
+        "Bearer SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/auth/login",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 5000,
+    "Timestamp": "2026-05-10T19:28:02.119Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"message\": \"Booking not found\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Authorization": [
+        "Bearer SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "DELETE",
+    "Path": "/api/bookings/000000000000000000000001",
+    "QueryParams": {},
+    "StatusCode": 404,
+    "Port": 5000,
+    "Timestamp": "2026-05-10T19:28:02.119Z",
+    "Scheme": "http"
+  }
+]
