@@ -14,7 +14,7 @@ import { test, expect } from '@playwright/test';
 import { SkyrampClient, getBaseUrl, getValue } from '@skyramp/skyramp';
 
 // URL for test requests
-let URL_localhost = getBaseUrl("SKYRAMP_TEST_BASE_URL", "http://localhost:5000");
+let URL_localhost = getBaseUrl("SKYRAMP_TEST_BASE_URL", "http://localhost:5001");
 
 test('testIntegration', async () => {
     test.setTimeout(60000);

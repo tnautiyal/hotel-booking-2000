@@ -26,10 +26,10 @@ COPY --from=builder /app/shared ./shared
 
 WORKDIR /app/hotel-booking-backend
 
-# App uses process.env.PORT || 5000. Default EXPOSE for development is 5001
+# App uses process.env.PORT || 5001. Default EXPOSE for development is 5001
 EXPOSE 5001
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:' + (process.env.PORT || 5000) + '/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
+  CMD node -e "require('http').get('http://localhost:' + (process.env.PORT || 5001) + '/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
 
 CMD ["node", "dist/hotel-booking-backend/src/index.js"]
