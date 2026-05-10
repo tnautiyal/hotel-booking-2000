@@ -19,6 +19,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import { seedDatabase } from "./utils/seed";
 
 // Environment Variables Validation
 const requiredEnvVars = [
@@ -60,6 +61,12 @@ const connectDB = async () => {
     await mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
     console.log("✅ MongoDB connected successfully");
     console.log(`📦 Database: ${mongoose.connection.db.databaseName}`);
+
+    // Seed database if enabled (default: true for development)
+    const shouldSeed = process.env.SEED_DATABASE !== "false";
+    if (shouldSeed) {
+      await seedDatabase();
+    }
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
     console.error("💡 Please check your MONGODB_CONNECTION_STRING");
