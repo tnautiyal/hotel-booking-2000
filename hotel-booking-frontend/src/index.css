@@ -26,3 +26,21 @@
     --radius: 0.5rem;
   }
 }
+
+/* React DatePicker styling for disabled/past dates */
+.react-datepicker__day--disabled {
+  color: #d1d5db;
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.react-datepicker__day--disabled:hover {
+  background-color: #f3f4f6;
+  color: #d1d5db;
+}
+
+/* Styling for dates in range (between check-in and check-out) */
+.react-datepicker__day--in-range {
+  background-color: #dbeafe;
+  color: #000;
+}
