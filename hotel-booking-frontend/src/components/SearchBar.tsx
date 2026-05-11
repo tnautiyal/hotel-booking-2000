@@ -203,14 +203,58 @@ const SearchBar = () => {
   };
 
   const minDate = new Date();
+  minDate.setHours(0, 0, 0, 0);
+
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
+
+  // Filter function to disable past dates
+  const filterDate = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date >= today;
+  };
+
+  // Validate dates on form submit
+  const validateDates = (): boolean => {
+    if (!checkIn || !checkOut) {
+      alert("Please select both check-in and check-out dates");
+      return false;
+    }
+
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    checkInDate.setHours(0, 0, 0, 0);
+    checkOutDate.setHours(0, 0, 0, 0);
+
+    if (checkInDate >= checkOutDate) {
+      alert("Check-out date must be at least 1 day after check-in date");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmitWithValidation = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (!validateDates()) {
+      return;
+    }
+
+    handleSubmit(event);
+  };
+
+  // Calculate minDate for checkout (1 day after check-in)
+  const checkOutMinDate = checkIn
+    ? new Date(checkIn.getTime() + 24 * 60 * 60 * 1000)
+    : minDate;
 
   return (
     <Card className="p-4">
       <CardContent className="p-0">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitWithValidation}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4"
           autoComplete="off"
         >
@@ -268,8 +312,10 @@ const SearchBar = () => {
               endDate={checkOut}
               minDate={minDate}
               maxDate={maxDate}
+              filterDate={filterDate}
               placeholderText="Check-in Date"
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              readOnly
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
               wrapperClassName="min-w-full"
             />
           </div>
@@ -280,10 +326,12 @@ const SearchBar = () => {
               selectsStart
               startDate={checkIn}
               endDate={checkOut}
-              minDate={minDate}
+              minDate={checkOutMinDate}
               maxDate={maxDate}
+              filterDate={filterDate}
               placeholderText="Check-out Date"
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              readOnly
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
               wrapperClassName="min-w-full"
             />
           </div>
